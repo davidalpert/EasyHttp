@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using EasyHttp.Http;
+using EasyHttp.Http.Abstractions;
 using EasyHttp.Specs.Helpers;
 using Machine.Specifications;
 
@@ -18,7 +19,7 @@ namespace EasyHttp.Specs.BugRepros
 
         Because of = () =>
             {
-                underlyingRequest = http.Request.PrepareRequest();
+                underlyingRequest = (http.Request.PrepareRequest() as HttpWebRequestWrapper).InnerRequest;
             };
 
         It should_enable_automatic_gzip_compression_on_the_underlying_web_request_by_default = () =>
@@ -50,7 +51,7 @@ namespace EasyHttp.Specs.BugRepros
 
         Because of = () =>
             {
-                underlyingRequest = http.Request.PrepareRequest();
+                underlyingRequest = (http.Request.PrepareRequest() as HttpWebRequestWrapper).InnerRequest;
             };
 
         It should_disable_automatic_gzip_compression_on_the_underlying_web_request = () =>

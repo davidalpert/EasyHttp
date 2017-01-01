@@ -167,7 +167,7 @@ namespace EasyHttp.Specs.BugRepros
             username.ShouldEqual("Andreas Håkansson");
         };
 
-        static HttpResponse response;
+        static IHttpResponse response;
     }
 
 

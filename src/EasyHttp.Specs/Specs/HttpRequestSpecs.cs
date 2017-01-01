@@ -142,8 +142,8 @@ namespace EasyHttp.Specs.Specs
             () => httpResponse.RawText.ShouldNotBeEmpty();
 
     
-        static HttpClient httpClient;
-        static HttpResponse httpResponse;
+        static IHttpClient httpClient;
+        static IHttpResponse httpResponse;
     }
 
     [Subject("HttpClient")]
@@ -298,8 +298,8 @@ namespace EasyHttp.Specs.Specs
 
         };
 
-        static HttpClient httpClient;
-        static HttpResponse response;
+        static IHttpClient httpClient;
+        static IHttpResponse response;
     }
 
   
@@ -320,8 +320,8 @@ namespace EasyHttp.Specs.Specs
         It should_return_OK_response  =
             () => response.StatusDescription.ShouldEqual("OK");
 
-        static HttpClient httpClient;
-        static HttpResponse response;
+        static IHttpClient httpClient;
+        static IHttpResponse response;
     }
 
     [Subject("HttpClient")]

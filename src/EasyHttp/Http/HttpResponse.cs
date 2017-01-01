@@ -61,13 +61,14 @@ using System.IO;
 using System.Net;
 using System.Text;
 using EasyHttp.Codecs;
+using EasyHttp.Http.Abstractions;
 
 namespace EasyHttp.Http
 {
-    public class HttpResponse
+    public class HttpResponse : IHttpResponse
     {
         readonly IDecoder _decoder;
-        HttpWebResponse _response;
+        IHttpWebResponse _response;
 
         public string CharacterSet { get; private set; }
         public string ContentType { get; private set; }
@@ -120,11 +121,11 @@ namespace EasyHttp.Http
 
        
 
-        public void GetResponse(WebRequest request, string filename, bool streamResponse)
+        public void GetResponse(IHttpWebRequest request, string filename, bool streamResponse)
         {
             try
             {
-                _response = (HttpWebResponse) request.GetResponse();
+                _response = request.GetResponse();
 
             }
             catch (WebException webException)
@@ -133,7 +134,7 @@ namespace EasyHttp.Http
                 {
                     throw;
                 }
-                _response = (HttpWebResponse) webException.Response;
+                _response = new HttpWebResponseWrapper((HttpWebResponse) webException.Response);
 
             }
 

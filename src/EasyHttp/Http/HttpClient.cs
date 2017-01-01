@@ -65,7 +65,7 @@ using EasyHttp.Infrastructure;
 
 namespace EasyHttp.Http
 {
-    public class HttpClient
+    public class HttpClient : IHttpClient
     {
         readonly string _baseUri;
         readonly IEncoder _encoder;
@@ -107,8 +107,8 @@ namespace EasyHttp.Http
             _baseUri = baseUri;
         }
 
-        public HttpResponse Response { get; private set; }
-        public HttpRequest Request { get; private set; }
+        public IHttpResponse Response { get; private set; }
+        public IHttpRequest Request { get; private set; }
 
         void InitRequest(string uri, HttpMethod method, object query)
         {
@@ -124,39 +124,39 @@ namespace EasyHttp.Http
         }
 
 
-        public HttpResponse GetAsFile(string uri, string filename)
+        public IHttpResponse GetAsFile(string uri, string filename)
         {
             InitRequest(uri, HttpMethod.GET, null);
             return ProcessRequest(filename);
         }
 
-        public HttpResponse Get(string uri, object query = null)
+        public IHttpResponse Get(string uri, object query = null)
         {
             InitRequest(uri, HttpMethod.GET, query);
             return ProcessRequest();
         }
 
-        public HttpResponse Options(string uri)
+        public IHttpResponse Options(string uri)
         {
             InitRequest(uri, HttpMethod.OPTIONS, null);
             return ProcessRequest();
         }
 
-        public HttpResponse Post(string uri, object data, string contentType, object query = null)
+        public IHttpResponse Post(string uri, object data, string contentType, object query = null)
         {
             InitRequest(uri, HttpMethod.POST, query);
             InitData(data, contentType);
             return ProcessRequest();
         }
 
-        public HttpResponse Patch(string uri, object data, string contentType, object query = null)
+        public IHttpResponse Patch(string uri, object data, string contentType, object query = null)
         {
             InitRequest(uri, HttpMethod.PATCH, query);
             InitData(data, contentType);
             return ProcessRequest();
         }
 
-        public HttpResponse Post(string uri, IDictionary<string, object> formData, IList<FileData> files, object query = null)
+        public IHttpResponse Post(string uri, IDictionary<string, object> formData, IList<FileData> files, object query = null)
         {
             InitRequest(uri, HttpMethod.POST, query);
             Request.MultiPartFormData = formData;
@@ -165,7 +165,7 @@ namespace EasyHttp.Http
             return ProcessRequest();
         }
 
-        public HttpResponse Put(string uri, object data, string contentType, object query = null)
+        public IHttpResponse Put(string uri, object data, string contentType, object query = null)
         {
             InitRequest(uri, HttpMethod.PUT, query);
             InitData(data, contentType);
@@ -181,20 +181,20 @@ namespace EasyHttp.Http
             }
         }
 
-        public HttpResponse Delete(string uri, object query = null)
+        public IHttpResponse Delete(string uri, object query = null)
         {
             InitRequest(uri, HttpMethod.DELETE, query);
             return ProcessRequest();
         }
 
  
-        public HttpResponse Head(string uri, object query = null)
+        public IHttpResponse Head(string uri, object query = null)
         {
             InitRequest(uri, HttpMethod.HEAD, query);
             return ProcessRequest();
         }
 
-        public HttpResponse PutFile(string uri, string filename, string contentType)
+        public IHttpResponse PutFile(string uri, string filename, string contentType)
         {
             InitRequest(uri, HttpMethod.PUT, null);
             Request.ContentType = contentType;
@@ -204,7 +204,7 @@ namespace EasyHttp.Http
             return ProcessRequest();
         }
 
-        HttpResponse ProcessRequest(string filename = "")
+        IHttpResponse ProcessRequest(string filename = "")
         {
             var httpWebRequest = Request.PrepareRequest();
 

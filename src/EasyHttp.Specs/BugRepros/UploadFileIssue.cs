@@ -38,7 +38,7 @@ namespace EasyHttp.Specs.BugRepros
 
         It should_say_that_operation_was_successful = () => response.RawText.ShouldNotContain("Please select a file to test.");
         
-        static HttpClient httpClient;
-        static HttpResponse response;
+        static IHttpClient httpClient;
+        static IHttpResponse response;
     }
 }

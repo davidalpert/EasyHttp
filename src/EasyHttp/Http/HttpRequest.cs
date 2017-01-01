@@ -41,12 +41,13 @@ using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using EasyHttp.Codecs;
+using EasyHttp.Http.Abstractions;
 using EasyHttp.Infrastructure;
 
 namespace EasyHttp.Http
 {
     // TODO: This class needs cleaning up and abstracting the encoder one more level
-    public class HttpRequest
+    public class HttpRequest : IHttpRequest
     {
         readonly IEncoder _encoder;
         HttpRequestCachePolicy _cachePolicy;
@@ -282,7 +283,7 @@ namespace EasyHttp.Http
         }
 
 
-        public HttpWebRequest PrepareRequest()
+        public IHttpWebRequest PrepareRequest()
         {
             httpWebRequest = (HttpWebRequest) WebRequest.Create(Uri);
             httpWebRequest.AllowAutoRedirect = AllowAutoRedirect;
@@ -290,7 +291,7 @@ namespace EasyHttp.Http
 
             SetupBody();
 
-            return httpWebRequest;
+            return new HttpWebRequestWrapper(httpWebRequest);
         }
 
         void SetupClientCertificates()

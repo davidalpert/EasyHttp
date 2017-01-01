@@ -7,7 +7,7 @@ namespace EasyHttp.Specs.Specs
 {
     [Ignore("This site is down. Need to find alternative")]
     [Subject(typeof (HttpClient))]
-    public class when_making_a_request_that_contains_a_response_with_error_information  
+    public class when_making_a_request_that_contains_a_response_with_error_information
     {
         Establish context = () =>
         {
@@ -44,8 +44,8 @@ namespace EasyHttp.Specs.Specs
             response.Server.ShouldEqual("Microsoft-IIS/8.0");
         };
 
-        static HttpClient client;
-        static HttpResponse response;
+        static IHttpClient client;
+        static IHttpResponse response;
     }
 
 }
