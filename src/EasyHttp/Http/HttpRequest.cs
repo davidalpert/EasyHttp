@@ -115,6 +115,7 @@ namespace EasyHttp.Http
 
         public virtual bool PersistCookies { get; set; }
         public virtual bool AllowAutoRedirect { get; set; }
+        public virtual string RawBody { get; set; }
 
         public virtual void SetBasicAuthentication(string username, string password)
         {
@@ -235,6 +236,17 @@ namespace EasyHttp.Http
             if (bytes.Length > 0)
             {
                 httpWebRequest.ContentLength = bytes.Length;
+
+                // cache the raw body for later
+                using (var stream = new MemoryStream(bytes))
+                using (var reader = new StreamReader(stream))
+                {
+                    RawBody = reader.ReadToEnd();
+                }
+            }
+            else
+            {
+                RawBody = string.Empty;
             }
 
             var requestStream = httpWebRequest.GetRequestStream();

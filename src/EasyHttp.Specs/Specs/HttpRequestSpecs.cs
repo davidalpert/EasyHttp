@@ -229,6 +229,22 @@ namespace EasyHttp.Specs.Specs
         }
 
         [Test, Category("HttpClient")]
+        public void when_making_a_POST_request_with_valid_uri_and_valid_data_it_should_make_available_the_raw_request()
+        {
+            var httpClient = new HttpClient();
+            httpClient.Request.Accept = HttpContentTypes.ApplicationJson;
+
+            var response = httpClient.Post("http://localhost:16000/hello", new Customer() { Name = "Hadi" },
+                HttpContentTypes.ApplicationJson);
+
+            var rawRequestBody = httpClient.Request.RawBody;
+
+            Console.WriteLine(rawRequestBody);
+
+            Assert.IsNotEmpty(rawRequestBody);
+        }
+
+        [Test, Category("HttpClient")]
         public void when_making_a_POST_request_with_valid_uri_and_valid_data_and_content_type_set_to_application_json_it_should_succeed()
         {
             var httpClient = new HttpClient();
